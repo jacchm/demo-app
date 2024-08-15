@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ArticleServiceImpl implements ArticleService {
+class ArticleServiceImpl implements ArticleService {
 
   private final ArticleRepository repository;
   private final ArticlePublisher publisher;
