@@ -33,9 +33,9 @@ class TestcontainersConfiguration {
     }
 
     @Bean
-//    @ServiceConnection
+    @ServiceConnection
     MinIOContainer minioContainer() {
-        // TODO 23.09.2024: własne service connection pod minio
+        // TODO 23.09.2024: własne service connection pod minio, niby zrobione, ale nie pykło coś
         return new MinIOContainer(DockerImageName.parse("minio/minio:latest"));
     }
 
