@@ -1,6 +1,7 @@
 package org.aszjch.demoapp;
 
 import com.redis.testcontainers.RedisContainer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.testcontainers.containers.PostgreSQLContainerProvider;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
+@Slf4j
 class TestcontainersConfiguration {
 
     @Bean
@@ -35,7 +37,6 @@ class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     MinIOContainer minioContainer() {
-        // TODO 23.09.2024: własne service connection pod minio, niby zrobione, ale nie pykło coś
         return new MinIOContainer(DockerImageName.parse("minio/minio:latest"));
     }
 
