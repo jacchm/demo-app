@@ -3,7 +3,8 @@ logging:
     org:
       aszjch:
         demoapp:
-          config:
-            MinIOContainerConnectionDetailsFactory: debug
-            MinIOAutoConfiguration: debug
+          infrastructure:
+            config:
+              MinIOContainerConnectionDetailsFactory: debug
+              MinIOAutoConfiguration: debug
 logging.level.org.aszjch.demoapp: debug

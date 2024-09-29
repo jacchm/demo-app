@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsFactory=\
-org.aszjch.demoapp.config.MinIOContainerConnectionDetailsFactory
+org.aszjch.demoapp.infrastructure.config.MinIOContainerConnectionDetailsFactory
