@@ -1,12 +1,16 @@
 package org.aszjch.demoapp.domain.article;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.aszjch.demoapp.domain.article.port.ArticlePublisher;
 import org.aszjch.demoapp.domain.article.port.ArticleRepository;
 import org.aszjch.demoapp.domain.articlefile.ArticleFile;
 import org.aszjch.demoapp.domain.articlefile.port.ArticleFileAssignmentService;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +29,9 @@ public class ArticleServiceImpl implements ArticleService, ArticleFileAssignment
     @Override
     public Article create(Article article) {
         Article saved = repository.save(article);
-        publisher.publish("Article created. Id: " + article.getId() +
-                                  " Title: " + article.getTitle() +
-                                  " Author: " + article.getAuthor() +
-                                  " Abstract: " + article.getAbstractText());
+        publisher.publish(
+                String.valueOf(new ArticleCreatedDto(saved.getId(), saved.getTitle(), saved.getAuthor(),
+                                                     saved.getAbstractText())));
         return saved;
     }
 
@@ -59,8 +62,10 @@ public class ArticleServiceImpl implements ArticleService, ArticleFileAssignment
         Optional<Article> oEntity = getById(articleFile.getArticleId());
         if (oEntity.isPresent()) {
             Article article = oEntity.get();
-            article.setFilename(article.getFilename());
+            article.setFilename(articleFile.getFilename());
             repository.save(article);
+            log.info("File [{}] has been successfully assigned to article [{}].", articleFile.getFilename(),
+                     article.getId());
         }
         else {
             log.error("File assignment failed. Article id {} not found", articleFile.getArticleId());
@@ -77,6 +82,27 @@ public class ArticleServiceImpl implements ArticleService, ArticleFileAssignment
         }
         else {
             log.error("Article id {} not found", id);
+        }
+    }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    private static class ArticleCreatedDto implements Serializable {
+
+        private Long id;
+        private String title;
+        private String author;
+        private String abstractText;
+
+        @Override
+        public String toString() {
+            return "Article created{" +
+                    "id=" + id +
+                    ", title='" + title + '\'' +
+                    ", author='" + author + '\'' +
+                    ", abstractText='" + abstractText + '\'' +
+                    '}';
         }
     }
 }
