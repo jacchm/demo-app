@@ -13,6 +13,7 @@ interface ArticleDtoMapper {
 
     @Mapping(target = "creationDate", source = ".", qualifiedByName = {"MapperHelper", "getCurrentTime"})
     @Mapping(ignore = true, target = "id")
+    @Mapping(ignore = true, target = "filename")
     Article toEntity(ArticleDto articleDto);
 
 }

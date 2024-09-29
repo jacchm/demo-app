@@ -13,6 +13,5 @@ class ArticleDto {
     private String title;
     private String author;
     private String abstractText;
-    private String filename;
 
 }

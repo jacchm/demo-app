@@ -8,3 +8,7 @@ logging:
               MinIOContainerConnectionDetailsFactory: debug
               MinIOAutoConfiguration: debug
 logging.level.org.aszjch.demoapp: debug
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
