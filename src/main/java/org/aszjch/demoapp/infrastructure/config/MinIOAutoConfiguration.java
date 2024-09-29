@@ -1,4 +1,4 @@
-package org.aszjch.demoapp.config;
+package org.aszjch.demoapp.infrastructure.config;
 
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;

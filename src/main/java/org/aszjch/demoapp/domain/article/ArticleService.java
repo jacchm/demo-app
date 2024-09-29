@@ -1,4 +1,4 @@
-package org.aszjch.demoapp.domain;
+package org.aszjch.demoapp.domain.article;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ public interface ArticleService {
 
     Optional<Article> getById(Long id);
 
-    Article update(Article article);
+    Article update(Long id, Article article);
 
     void delete(Long id);
 

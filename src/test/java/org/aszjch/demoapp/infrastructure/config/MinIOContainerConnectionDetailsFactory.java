@@ -1,4 +1,4 @@
-package org.aszjch.demoapp.config;
+package org.aszjch.demoapp.infrastructure.config;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,14 +8,18 @@ import org.testcontainers.containers.MinIOContainer;
 
 @Slf4j
 @NoArgsConstructor
-public class MinIOContainerConnectionDetailsFactory extends ContainerConnectionDetailsFactory<MinIOContainer, MinIOConnetionDetails> {
+class MinIOContainerConnectionDetailsFactory extends
+                                             ContainerConnectionDetailsFactory<MinIOContainer, MinIOConnetionDetails> {
 
     @Override
     protected MinIOConnetionDetails getContainerConnectionDetails(ContainerConnectionSource<MinIOContainer> source) {
         return new MinIOContainerConnectionDetails(source);
     }
 
-    private static final class MinIOContainerConnectionDetails extends ContainerConnectionDetailsFactory.ContainerConnectionDetails<MinIOContainer> implements MinIOConnetionDetails {
+    private static final class MinIOContainerConnectionDetails extends
+                                                               ContainerConnectionDetailsFactory.ContainerConnectionDetails<MinIOContainer> implements
+                                                                                                                                            MinIOConnetionDetails {
+
         public MinIOContainerConnectionDetails(ContainerConnectionSource<MinIOContainer> source) {
             super(source);
         }
@@ -39,6 +43,11 @@ public class MinIOContainerConnectionDetailsFactory extends ContainerConnectionD
             String password = getContainer().getPassword();
             log.debug("Password retrieved from MinIO container: [{}]", password);
             return password;
+        }
+
+        @Override
+        public String bucket() {
+            return "test-bucket";
         }
     }
 }
