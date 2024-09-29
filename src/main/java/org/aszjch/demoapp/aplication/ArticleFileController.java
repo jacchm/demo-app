@@ -6,9 +6,11 @@ import org.aszjch.demoapp.domain.articlefile.ArticleFile;
 import org.aszjch.demoapp.domain.articlefile.ArticleFileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -22,14 +24,14 @@ class ArticleFileController {
     private final ArticleFileDtoMapper mapper;
 
     @PostMapping
-    ResponseEntity<String> uploadFile(@RequestBody ArticleFileDto articleFileDto) {
+    ResponseEntity<String> uploadFile(@RequestParam Long articleId, @RequestPart MultipartFile uploadedFile) {
         log.info("Creating articleFile");
-        ArticleFile articleFile = mapper.toEntity(articleFileDto);
+        ArticleFile articleFile = mapper.toEntity(articleId, uploadedFile);
         service.upload(articleFile);
 
         return ResponseEntity
                 .status(CREATED)
-                .body(articleFileDto.getFilename());
+                .body(uploadedFile.getName());
     }
 
 }

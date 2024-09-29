@@ -29,11 +29,15 @@ public class TempFilesService {
     }
 
     public File convertMultipartFile(MultipartFile multipartFile) throws IOException {
-        File file = Path.of(tempFilesProperties.getDir(), "targetFile.tmp")
+        File file = Path.of(tempFilesProperties.getDir(), multipartFile.getOriginalFilename())
                 .toFile();
-
-        multipartFile.transferTo(file);
-
+        boolean result = file.createNewFile();
+        if (result) {
+            multipartFile.transferTo(file);
+        }
+        else {
+            log.error("Failed to create temp file");
+        }
         return file;
     }
 }
