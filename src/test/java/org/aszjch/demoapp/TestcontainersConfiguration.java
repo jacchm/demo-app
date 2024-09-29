@@ -22,7 +22,6 @@ class TestcontainersConfiguration {
     }
 
     @Bean
-    @ServiceConnection(name = "redis")
     RedisContainer redisContainer() {
         return new RedisContainer(DockerImageName.parse("redis:latest")).withExposedPorts(6379);
     }
