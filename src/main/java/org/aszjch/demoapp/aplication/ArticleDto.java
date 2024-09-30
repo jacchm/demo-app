@@ -1,6 +1,6 @@
 package org.aszjch.demoapp.aplication;
 
-import jakarta.validation.constraints.Null;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 class ArticleDto {
 
-    @Null(message = "id must not be provided.")
+    @JsonIgnore
     private Long id;
     private String title;
     private String author;
