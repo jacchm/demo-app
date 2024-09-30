@@ -4,7 +4,7 @@ import org.aszjch.demoapp.domain.article.ArticleService;
 import org.aszjch.demoapp.domain.articlefile.ArticleFileService;
 import org.aszjch.demoapp.domain.articlefile.ArticleFileServiceImpl;
 import org.aszjch.demoapp.domain.articlefile.port.ArticleFileAssignmentService;
-import org.aszjch.demoapp.domain.articlefile.port.ArticleFilePublisher;
+import org.aszjch.demoapp.domain.articlefile.port.ArticleFileStorageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Configuration;
 public class ArticleFileConfig {
 
     @Bean
-    public ArticleFileAssignmentService articleFileAssignmentService(ArticleService articleService) {
+    public ArticleFileAssignmentService articleFileAssignmentService(final ArticleService articleService) {
         return (ArticleFileAssignmentService) articleService;
     }
 
     @Bean
-    public ArticleFileService articleFileService(ArticleFilePublisher articleFilePublisher,
-                                                 ArticleFileAssignmentService articleFileAssignmentService) {
-        return new ArticleFileServiceImpl(articleFilePublisher, articleFileAssignmentService);
+    public ArticleFileService articleFileService(final ArticleFileStorageService articleFileStorageService,
+                                                 final ArticleFileAssignmentService articleFileAssignmentService) {
+        return new ArticleFileServiceImpl(articleFileStorageService, articleFileAssignmentService);
     }
 
 }

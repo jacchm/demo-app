@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-public class CustomMultipartFile implements MultipartFile {
+class CustomMultipartFile implements MultipartFile {
 
     private final File file;
 
-    public CustomMultipartFile(File file) {
+    public CustomMultipartFile(final File file) {
         this.file = file;
     }
 
@@ -30,7 +30,7 @@ public class CustomMultipartFile implements MultipartFile {
     public String getContentType() {
         try {
             return Files.probeContentType(file.toPath());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException("Error while extracting MIME type of file", e);
         }
     }
@@ -56,7 +56,7 @@ public class CustomMultipartFile implements MultipartFile {
     }
 
     @Override
-    public void transferTo(File dest) throws IOException, IllegalStateException {
+    public void transferTo(final File dest) throws IOException, IllegalStateException {
         throw new UnsupportedOperationException();
     }
 }

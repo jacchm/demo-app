@@ -14,24 +14,24 @@ import java.nio.file.Path;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TempFilesService {
+public class MultipartFileToFileConverter {
 
     private final TempFilesProperties tempFilesProperties;
 
     @PostConstruct
     public void init() {
-        Path path = Path.of(tempFilesProperties.getDir());
-        File pathAsFile = path.toFile();
+        final Path path = Path.of(tempFilesProperties.getDir());
+        final File pathAsFile = path.toFile();
         if (!pathAsFile.exists() || !pathAsFile.isDirectory()) {
-            boolean result = pathAsFile.mkdir();
+            final boolean result = pathAsFile.mkdir();
             log.debug("Temp path creation result: {}", result);
         }
     }
 
-    public File convertMultipartFile(MultipartFile multipartFile) throws IOException {
-        File file = Path.of(tempFilesProperties.getDir(), multipartFile.getOriginalFilename())
+    public File convertMultipartFile(final MultipartFile multipartFile) throws IOException {
+        final File file = Path.of(tempFilesProperties.getDir(), multipartFile.getOriginalFilename())
                 .toFile();
-        boolean result = file.createNewFile();
+        final boolean result = file.createNewFile();
         if (result) {
             multipartFile.transferTo(file);
         }

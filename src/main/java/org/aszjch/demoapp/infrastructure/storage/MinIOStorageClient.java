@@ -26,19 +26,19 @@ import java.security.NoSuchAlgorithmException;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-class FileStorageServiceImpl implements ExternalStorageService {
+class MinIOStorageClient implements ExternalStorageClient {
 
     private final MinioClient s3Client;
     private final MinIOConnetionDetails minIOConnectionDetails;
 
     @Override
-    public ObjectWriteResponse upload(MultipartFile file) {
+    public ObjectWriteResponse upload(final MultipartFile file) {
         log.info("Uploading import file with name {} to S3.", file.getOriginalFilename());
 
         ObjectWriteResponse response = null;
         try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(file.getBytes());
-            PutObjectArgs putArgs = PutObjectArgs.builder()
+            final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(file.getBytes());
+            final PutObjectArgs putArgs = PutObjectArgs.builder()
                     .bucket(minIOConnectionDetails.bucket())
                     .object(file.getName())
                     .stream(byteArrayInputStream, byteArrayInputStream.available(), -1)
@@ -48,7 +48,7 @@ class FileStorageServiceImpl implements ExternalStorageService {
             response = s3Client.putObject(putArgs);
             log.info("File {} has been uploaded", file.getName());
             return response;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("Exception occurred during uploading file {}", file.getName(), e);
         }
         return response;

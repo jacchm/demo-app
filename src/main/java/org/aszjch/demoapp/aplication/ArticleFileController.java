@@ -21,12 +21,13 @@ import static org.springframework.http.HttpStatus.CREATED;
 class ArticleFileController {
 
     private final ArticleFileService service;
-    private final ArticleFileDtoMapper mapper;
+    private final ArticleFileMapper mapper;
 
     @PostMapping
-    ResponseEntity<String> uploadFile(@RequestParam Long articleId, @RequestPart MultipartFile uploadedFile) {
+    ResponseEntity<String> uploadFile(@RequestParam final Long articleId,
+                                      @RequestPart final MultipartFile uploadedFile) {
         log.info("Creating articleFile");
-        ArticleFile articleFile = mapper.toEntity(articleId, uploadedFile);
+        final ArticleFile articleFile = mapper.toEntity(articleId, uploadedFile);
         service.upload(articleFile);
 
         return ResponseEntity

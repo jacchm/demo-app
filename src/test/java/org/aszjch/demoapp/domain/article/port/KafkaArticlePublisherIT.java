@@ -1,6 +1,7 @@
 package org.aszjch.demoapp.domain.article.port;
 
 import org.aszjch.demoapp.TestcontainersConfiguration;
+import org.aszjch.demoapp.domain.article.ArticleCreatedDto;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -22,17 +23,18 @@ class KafkaArticlePublisherIT {
     @SpyBean
     private KafkaTestListener kafkaTestListener;
     @Captor
-    private ArgumentCaptor<String> messageCaptor;
+    private ArgumentCaptor<ArticleCreatedDto> messageCaptor;
 
     @Test
     void publishes_messages_correctly() {
-        String message = "This is a test message";
+        final ArticleCreatedDto articleCreatedDto = new ArticleCreatedDto(1L, "Test article title", "Chuck Testa",
+                                                                          "Some test article abstract");
 
-        kafkaArticlePublisher.publish(message);
+        kafkaArticlePublisher.publish(articleCreatedDto);
 
         Awaitility.await()
                 .untilAsserted(() -> verify(kafkaTestListener).listener(messageCaptor.capture()));
-        assertEquals(message, messageCaptor.getValue());
+        assertEquals(articleCreatedDto, messageCaptor.getValue());
     }
 
 }

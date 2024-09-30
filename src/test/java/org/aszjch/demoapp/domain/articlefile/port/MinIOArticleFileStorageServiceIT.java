@@ -25,36 +25,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest
 @Slf4j
-class MinIOArticleFilePublisherIT {
+class MinIOArticleFileStorageServiceIT {
 
     @Autowired
-    private ArticleFilePublisher minIOArticleFilePublisher;
+    private ArticleFileStorageService minIOArticleFileStorageService;
     @Autowired
     private MinioClient minioClient;
     @Autowired
     private MinIOConnetionDetails minIOConnetionDetails;
 
     @Test
-    void publishes_article_file_to_minio(@TempDir File tempDir) throws Exception {
-        String fileName = "test-file.txt";
-        File file = new File(tempDir + "/" + fileName);
+    void publishes_article_file_to_minio(@TempDir final File tempDir) throws Exception {
+        final String fileName = "test-file.txt";
+        final File file = new File(tempDir + "/" + fileName);
         file.createNewFile();
-        String fileContent = "Hello from Testcontainers";
+        final String fileContent = "Hello from Testcontainers";
         FileUtils.write(file, fileContent, StandardCharsets.UTF_8);
-        ArticleFile articleFile = new ArticleFile();
+        final ArticleFile articleFile = new ArticleFile();
         articleFile.setFile(file);
         articleFile.setFilename(fileName);
 
-        minIOArticleFilePublisher.publish(articleFile);
+        minIOArticleFileStorageService.store(articleFile);
 
 
-        Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder()
-                                                                         .bucket(minIOConnetionDetails.bucket())
-                                                                         .build());
-        ArrayList<Result<Item>> resultList = new ArrayList<>();
+        final Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder()
+                                                                               .bucket(minIOConnetionDetails.bucket())
+                                                                               .build());
+        final ArrayList<Result<Item>> resultList = new ArrayList<>();
         results.forEach(resultList::add);
         assertEquals(1, resultList.size());
-        Item firstResult = resultList.getFirst()
+        final Item firstResult = resultList.getFirst()
                 .get();
         assertEquals(fileName, firstResult.objectName());
         log.info("Filename read from minio: {}", firstResult.objectName());
