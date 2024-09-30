@@ -5,10 +5,14 @@ import java.util.Optional;
 
 public interface ArticleService {
 
-  List<Article> get();
+    List<Article> get();
 
-  Article create(Article article);
+    Article create(Article article);
 
-  Optional<Article> getById(Long id);
+    Optional<Article> getById(Long id);
+
+    Article update(Article article);
+
+    void delete(Long id);
 
 }
