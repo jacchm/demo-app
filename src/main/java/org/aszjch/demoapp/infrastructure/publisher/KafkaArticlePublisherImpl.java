@@ -16,6 +16,6 @@ class KafkaArticlePublisherImpl implements ArticlePublisher {
     @Override
     public void publish(String message) {
         log.debug("Publishing message: [{}]", message);
-        kafkaTemplate.send("articles", message);
+        kafkaTemplate.send("articles-created", message);
     }
 }

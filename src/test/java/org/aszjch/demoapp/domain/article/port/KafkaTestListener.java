@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 class KafkaTestListener {
 
-    @KafkaListener(topics = {"articles"})
+    @KafkaListener(topics = {"articles-created"})
     void listener(String message) {
         log.info("Received message: {}", message);
     }
