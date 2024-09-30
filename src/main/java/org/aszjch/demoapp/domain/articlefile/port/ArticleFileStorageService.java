@@ -2,7 +2,7 @@ package org.aszjch.demoapp.domain.articlefile.port;
 
 import org.aszjch.demoapp.domain.articlefile.ArticleFile;
 
-public interface ArticleFilePublisher {
+public interface ArticleFileStorageService {
 
-    void publish(ArticleFile articleFile);
+    void store(ArticleFile articleFile);
 }

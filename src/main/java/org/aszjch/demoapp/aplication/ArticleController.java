@@ -32,7 +32,7 @@ class ArticleController {
     @GetMapping
     ResponseEntity<List<ArticleDto>> getArticles() {
         log.info("Getting articles");
-        List<ArticleDto> articles = service.get()
+        final List<ArticleDto> articles = service.get()
                 .stream()
                 .map(mapper::toDto)
                 .toList();
@@ -41,10 +41,10 @@ class ArticleController {
     }
 
     @PostMapping
-    ResponseEntity<IdDTO> createArticle(@RequestBody ArticleDto articleDto) {
+    ResponseEntity<IdDTO> createArticle(@RequestBody final ArticleDto articleDto) {
         log.info("Creating article");
-        Article article = mapper.toEntity(articleDto);
-        Article saved = service.create(article);
+        final Article article = mapper.toEntity(articleDto);
+        final Article saved = service.create(article);
 
         return ResponseEntity
                 .status(CREATED)
@@ -52,10 +52,10 @@ class ArticleController {
     }
 
     @PutMapping
-    ResponseEntity<IdDTO> updateArticle(@RequestParam Long id, @RequestBody ArticleDto articleDto) {
+    ResponseEntity<IdDTO> updateArticle(@RequestParam final Long id, @RequestBody final ArticleDto articleDto) {
         log.info("Updating article");
-        Article article = mapper.toEntity(articleDto);
-        Article updated = service.update(id, article);
+        final Article article = mapper.toEntity(articleDto);
+        final Article updated = service.update(id, article);
 
         return ResponseEntity
                 .ok()
@@ -63,7 +63,7 @@ class ArticleController {
     }
 
     @DeleteMapping
-    ResponseEntity<Void> deleteArticle(@RequestParam Long id) {
+    ResponseEntity<Void> deleteArticle(@RequestParam final Long id) {
         log.info("Deleting article");
         service.delete(id);
 

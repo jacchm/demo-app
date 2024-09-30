@@ -6,17 +6,15 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.web.multipart.MultipartFile;
 
-import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
-
-@Mapper(componentModel = "spring", injectionStrategy = CONSTRUCTOR, uses = MapperHelper.class)
-interface ArticleFileDtoMapper {
+@Mapper(config = MapStructConfig.class)
+interface ArticleFileMapper {
 
     @Mapping(target = "file", source = "uploadedFile", qualifiedByName = {"MapperHelper", "multipartFileToFile"})
     @Mapping(target = "filename", source = "uploadedFile", qualifiedByName = "getFileName")
-    ArticleFile toEntity(Long articleId, MultipartFile uploadedFile);
+    ArticleFile toEntity(final Long articleId, final MultipartFile uploadedFile);
 
     @Named("getFileName")
-    default String getFileName(MultipartFile multipartFile) {
+    default String getFileName(final MultipartFile multipartFile) {
         return multipartFile.getOriginalFilename();
     }
 }

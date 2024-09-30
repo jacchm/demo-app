@@ -1,7 +1,7 @@
 package org.aszjch.demoapp.aplication;
 
 import lombok.RequiredArgsConstructor;
-import org.aszjch.demoapp.infrastructure.storage.TempFilesService;
+import org.aszjch.demoapp.infrastructure.storage.MultipartFileToFileConverter;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,16 +17,16 @@ import java.time.OffsetDateTime;
 class MapperHelper {
 
     private final Clock clock;
-    private final TempFilesService tempFilesService;
+    private final MultipartFileToFileConverter multipartFileToFileConverter;
 
     @Named("getCurrentTime")
-    OffsetDateTime getCurrentTime(Object ignore) {
+    OffsetDateTime getCurrentTime(final Object ignore) {
         return OffsetDateTime.now(clock);
     }
 
     @Named("multipartFileToFile")
-    File multipartFileToFile(MultipartFile multipartFile) throws IOException {
-        return tempFilesService.convertMultipartFile(multipartFile);
+    File multipartFileToFile(final MultipartFile multipartFile) throws IOException {
+        return multipartFileToFileConverter.convertMultipartFile(multipartFile);
     }
 
 }

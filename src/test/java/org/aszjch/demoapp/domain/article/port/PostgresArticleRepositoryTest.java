@@ -4,6 +4,7 @@ import org.aszjch.demoapp.TestClockBean;
 import org.aszjch.demoapp.TestcontainersConfiguration;
 import org.aszjch.demoapp.domain.article.Article;
 import org.aszjch.demoapp.infrastructure.repository.TruncatingRepository;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,9 @@ class PostgresArticleRepositoryTest {
 
     @Test
     void saves_article() {
-        Article article = new Article();
-        article.setTitle("Test title");
-        article.setAuthor("Test author");
-        article.setAbstractText("Test abstract text");
-        article.setCreationDate(OffsetDateTime.now(clock));
+        final Article article = createArticle("Test title", "Test author", "Test abstract text");
 
-        Article saved = postgresArticleRepository.save(article);
+        final Article saved = postgresArticleRepository.save(article);
 
         assertNotNull(saved);
         assertAll(
@@ -59,19 +56,25 @@ class PostgresArticleRepositoryTest {
                 () -> assertNull(saved.getFilename()));
     }
 
+    private @NotNull Article createArticle(final String title, final String author,
+                                           final String abstractText) {
+        final Article article = new Article();
+        article.setTitle(title);
+        article.setAuthor(author);
+        article.setAbstractText(abstractText);
+        article.setCreationDate(OffsetDateTime.now(clock));
+        return article;
+    }
+
     @Test
     void finds_article_by_id() {
-        Article article = new Article();
-        article.setTitle("Test title");
-        article.setAuthor("Test author");
-        article.setAbstractText("Test abstract text");
-        article.setCreationDate(OffsetDateTime.now(clock));
-        Article saved = postgresArticleRepository.save(article);
+        final Article article = createArticle("Test title", "Test author", "Test abstract text");
+        final Article saved = postgresArticleRepository.save(article);
 
-        Optional<Article> optionalArticle = postgresArticleRepository.findById(saved.getId());
+        final Optional<Article> optionalArticle = postgresArticleRepository.findById(saved.getId());
 
         assertTrue(optionalArticle.isPresent());
-        Article readArticle = optionalArticle.get();
+        final Article readArticle = optionalArticle.get();
         assertAll(
                 () -> assertEquals(saved.getId(), readArticle.getId()),
                 () -> assertEquals(saved.getTitle(), readArticle.getTitle()),
@@ -88,44 +91,30 @@ class PostgresArticleRepositoryTest {
 
     @Test
     void finds_all_articles() {
-        Article article = new Article();
-        article.setTitle("Test title");
-        article.setAuthor("Test author");
-        article.setAbstractText("Test abstract text");
-        article.setCreationDate(OffsetDateTime.now(clock));
+        final Article article = createArticle("Test title", "Test author", "Test abstract text");
         postgresArticleRepository.save(article);
-        Article article2 = new Article();
-        article2.setTitle("Test title2");
-        article2.setAuthor("Test author2");
-        article2.setAbstractText("Test abstract text2");
-        article2.setCreationDate(OffsetDateTime.now(clock));
+        final Article article2 = createArticle("Test title2", "Test author2",
+                                               "Test abstract text2");
         postgresArticleRepository.save(article2);
 
-        List<Article> articles = postgresArticleRepository.findAll();
+        final List<Article> articles = postgresArticleRepository.findAll();
 
         assertEquals(2, articles.size());
     }
 
     @Test
     void deletes_article_by_id() {
-        Article article = new Article();
-        article.setTitle("Test title");
-        article.setAuthor("Test author");
-        article.setAbstractText("Test abstract text");
-        article.setCreationDate(OffsetDateTime.now(clock));
+        final Article article = createArticle("Test title", "Test author", "Test abstract text");
         postgresArticleRepository.save(article);
-        Article article2 = new Article();
-        article2.setTitle("Test title2");
-        article2.setAuthor("Test author2");
-        article2.setAbstractText("Test abstract text2");
-        article2.setCreationDate(OffsetDateTime.now(clock));
-        Article saved = postgresArticleRepository.save(article2);
+        final Article article2 = createArticle("Test title2", "Test author2",
+                                               "Test abstract text2");
+        final Article saved = postgresArticleRepository.save(article2);
 
         postgresArticleRepository.deleteById(saved.getId());
 
-        List<Article> articles = postgresArticleRepository.findAll();
+        final List<Article> articles = postgresArticleRepository.findAll();
         assertEquals(1, articles.size());
-        Article first = articles.getFirst();
+        final Article first = articles.getFirst();
         assertAll(
                 () -> assertEquals(article.getTitle(), first.getTitle()),
                 () -> assertEquals(article.getAuthor(), first.getAuthor()),
