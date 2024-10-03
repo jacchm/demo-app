@@ -3,9 +3,7 @@ package org.aszjch.demoapp.domain.article.port;
 import org.aszjch.demoapp.TestClockBean;
 import org.aszjch.demoapp.TestcontainersConfiguration;
 import org.aszjch.demoapp.domain.article.Article;
-import org.aszjch.demoapp.infrastructure.repository.TruncatingRepository;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -31,18 +30,11 @@ class PostgresArticleRepositoryTest {
     @Autowired
     private ArticleRepository postgresArticleRepository;
     @Autowired
-    private TruncatingRepository truncatingRepository;
-    @Autowired
     private Clock clock;
-
-    @BeforeEach
-    void cleanTable() {
-        truncatingRepository.truncateTable();
-    }
 
     @Test
     void saves_article() {
-        final Article article = createArticle("Test title", "Test author", "Test abstract text");
+        final Article article = createArticle();
 
         final Article saved = postgresArticleRepository.save(article);
 
@@ -56,75 +48,53 @@ class PostgresArticleRepositoryTest {
                 () -> assertNull(saved.getFilename()));
     }
 
-    private @NotNull Article createArticle(final String title, final String author,
-                                           final String abstractText) {
+    private @NotNull Article createArticle() {
         final Article article = new Article();
-        article.setTitle(title);
-        article.setAuthor(author);
-        article.setAbstractText(abstractText);
+        article.setTitle("Test title");
+        article.setAuthor("Test author");
+        article.setAbstractText("Test abstract text");
         article.setCreationDate(OffsetDateTime.now(clock));
         return article;
     }
 
     @Test
     void finds_article_by_id() {
-        final Article article = createArticle("Test title", "Test author", "Test abstract text");
-        final Article saved = postgresArticleRepository.save(article);
-
-        final Optional<Article> optionalArticle = postgresArticleRepository.findById(saved.getId());
+        final Optional<Article> optionalArticle = postgresArticleRepository.findById(1L);
 
         assertTrue(optionalArticle.isPresent());
         final Article readArticle = optionalArticle.get();
         assertAll(
-                () -> assertEquals(saved.getId(), readArticle.getId()),
-                () -> assertEquals(saved.getTitle(), readArticle.getTitle()),
-                () -> assertEquals(saved.getAuthor(), readArticle.getAuthor()),
-                () -> assertEquals(saved.getAbstractText(), readArticle.getAbstractText()),
-                () -> assertEquals(saved.getCreationDate()
+                () -> assertEquals(1, readArticle.getId()),
+                () -> assertEquals("Test title", readArticle.getTitle()),
+                () -> assertEquals("Test author", readArticle.getAuthor()),
+                () -> assertEquals("Test abstract text", readArticle.getAbstractText()),
+                () -> assertEquals(OffsetDateTime.parse("2024-10-03T10:00:00+00:00")
                                            .atZoneSameInstant(ZoneId.systemDefault())
                                            .truncatedTo(ChronoUnit.MILLIS), readArticle.getCreationDate()
                                            .atZoneSameInstant(ZoneId.systemDefault())
                                            .truncatedTo(ChronoUnit.MILLIS)),
-                () -> assertEquals(saved.getFilename(), readArticle.getFilename()));
+                () -> assertNull(readArticle.getFilename()));
 
     }
 
     @Test
     void finds_all_articles() {
-        final Article article = createArticle("Test title", "Test author", "Test abstract text");
-        postgresArticleRepository.save(article);
-        final Article article2 = createArticle("Test title2", "Test author2",
-                                               "Test abstract text2");
-        postgresArticleRepository.save(article2);
-
         final List<Article> articles = postgresArticleRepository.findAll();
 
-        assertEquals(2, articles.size());
+        assertThat(articles)
+                .hasSizeGreaterThanOrEqualTo(4);
     }
 
     @Test
     void deletes_article_by_id() {
-        final Article article = createArticle("Test title", "Test author", "Test abstract text");
-        postgresArticleRepository.save(article);
-        final Article article2 = createArticle("Test title2", "Test author2",
-                                               "Test abstract text2");
-        final Article saved = postgresArticleRepository.save(article2);
-
-        postgresArticleRepository.deleteById(saved.getId());
+        postgresArticleRepository.deleteById(4L);
 
         final List<Article> articles = postgresArticleRepository.findAll();
-        assertEquals(1, articles.size());
-        final Article first = articles.getFirst();
-        assertAll(
-                () -> assertEquals(article.getTitle(), first.getTitle()),
-                () -> assertEquals(article.getAuthor(), first.getAuthor()),
-                () -> assertEquals(article.getAbstractText(), first.getAbstractText()),
-                () -> assertEquals(article.getCreationDate()
-                                           .atZoneSameInstant(ZoneId.systemDefault())
-                                           .truncatedTo(ChronoUnit.MILLIS), first.getCreationDate()
-                                           .atZoneSameInstant(ZoneId.systemDefault())
-                                           .truncatedTo(ChronoUnit.MILLIS)),
-                () -> assertEquals(article.getFilename(), first.getFilename()));
+
+        assertThat(articles)
+                .extracting(Article::getId)
+                .isNotEmpty()
+                .doesNotContain(4L);
     }
 
 }

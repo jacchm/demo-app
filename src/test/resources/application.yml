@@ -9,9 +9,6 @@ logging:
               MinIOAutoConfiguration: debug
 logging.level.org.aszjch.demoapp: debug
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create
   servlet:
     multipart:
       max-file-size: 10MB
@@ -21,4 +18,4 @@ spring:
     admin:
       auto-create: true
     template:
-      default-topic: "articles"
+      default-topic: "articles-created"
