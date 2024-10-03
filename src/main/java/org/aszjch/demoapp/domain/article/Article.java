@@ -4,8 +4,6 @@ import lombok.Data;
 
 import java.time.OffsetDateTime;
 
-
-// TODO: important - DOMAIN CLASS STATE CAN BE CHANGED ONLY FROM WITHIN THE CLASS, NOT FROM OUTSIDE
 @Data
 public class Article {
 
