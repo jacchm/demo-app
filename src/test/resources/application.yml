@@ -8,14 +8,3 @@ logging:
               MinIOContainerConnectionDetailsFactory: debug
               MinIOAutoConfiguration: debug
 logging.level.org.aszjch.demoapp: debug
-spring:
-  servlet:
-    multipart:
-      max-file-size: 10MB
-  kafka:
-    consumer:
-      group-id: test
-    admin:
-      auto-create: true
-    template:
-      default-topic: "articles-created"
