@@ -26,7 +26,7 @@ class KafkaArticlePublisherIT {
     private ArgumentCaptor<ArticleCreatedDto> messageCaptor;
 
     @Test
-    void publishes_messages_correctly() {
+    void publishesMessagesCorrectly() {
         final ArticleCreatedDto articleCreatedDto = new ArticleCreatedDto(1L, "Test article title", "Chuck Testa",
                                                                           "Some test article abstract");
 

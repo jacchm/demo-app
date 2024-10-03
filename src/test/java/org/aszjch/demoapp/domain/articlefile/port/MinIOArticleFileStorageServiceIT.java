@@ -34,7 +34,7 @@ class MinIOArticleFileStorageServiceIT {
     private MinIOConnetionDetails minIOConnetionDetails;
 
     @Test
-    void publishes_article_file_to_minio(@TempDir final File tempDir) throws Exception {
+    void publishesArticleFileToMinio(@TempDir final File tempDir) throws Exception {
         final String fileName = "test-file.txt";
         final File file = prepareTestFile(tempDir, fileName);
         final ArticleFile articleFile = prepareArticleFile(file, fileName);

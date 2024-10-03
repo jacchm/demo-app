@@ -33,7 +33,7 @@ class PostgresArticleRepositoryTest {
     private Clock clock;
 
     @Test
-    void saves_article() {
+    void savesArticle() {
         final Article article = createArticle();
 
         final Article saved = postgresArticleRepository.save(article);
@@ -58,7 +58,7 @@ class PostgresArticleRepositoryTest {
     }
 
     @Test
-    void finds_article_by_id() {
+    void findsArticleById() {
         final Optional<Article> optionalArticle = postgresArticleRepository.findById(1L);
 
         assertTrue(optionalArticle.isPresent());
@@ -78,7 +78,7 @@ class PostgresArticleRepositoryTest {
     }
 
     @Test
-    void finds_all_articles() {
+    void findsAllArticles() {
         final List<Article> articles = postgresArticleRepository.findAll();
 
         assertThat(articles)
@@ -86,7 +86,7 @@ class PostgresArticleRepositoryTest {
     }
 
     @Test
-    void deletes_article_by_id() {
+    void deletesArticleById() {
         postgresArticleRepository.deleteById(4L);
 
         final List<Article> articles = postgresArticleRepository.findAll();
