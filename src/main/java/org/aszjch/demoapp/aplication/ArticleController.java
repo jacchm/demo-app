@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aszjch.demoapp.domain.article.Article;
 import org.aszjch.demoapp.domain.article.ArticleService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,14 +51,14 @@ class ArticleController {
     }
 
     @PutMapping
-    ResponseEntity<IdDTO> updateArticle(@RequestParam final Long id, @RequestBody final ArticleDto articleDto) {
+    ResponseEntity<Void> updateArticle(@RequestParam final Long id, @RequestBody final ArticleDto articleDto) {
         log.info("Updating article");
         final Article article = mapper.toEntity(articleDto);
-        final Article updated = service.update(id, article);
+        service.update(id, article);
 
         return ResponseEntity
-                .ok()
-                .body(of(updated.getId()));
+                .noContent()
+                .build();
     }
 
     @DeleteMapping
@@ -68,7 +67,7 @@ class ArticleController {
         service.delete(id);
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
+                .noContent()
                 .build();
     }
 
