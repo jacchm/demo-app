@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Mapper(config = MapStructConfig.class)
 interface ArticleFileMapper {
 
-    @Mapping(target = "file", source = "uploadedFile", qualifiedByName = {"MapperHelper", "multipartFileToFile"})
+    @Mapping(target = "file", source = "uploadedFile", qualifiedByName = {"MultipartFileToFileConverter", "convert"})
     @Mapping(target = "filename", source = "uploadedFile", qualifiedByName = "getFileName")
     ArticleFile toEntity(final Long articleId, final MultipartFile uploadedFile);
 

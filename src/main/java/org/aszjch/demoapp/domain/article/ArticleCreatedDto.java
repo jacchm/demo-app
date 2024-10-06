@@ -1,18 +1,14 @@
 package org.aszjch.demoapp.domain.article;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
 @AllArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
 @NoArgsConstructor
+@Data
 public class ArticleCreatedDto implements Serializable {
 
     private Long id;
@@ -20,13 +16,4 @@ public class ArticleCreatedDto implements Serializable {
     private String author;
     private String abstractText;
 
-    @Override
-    public String toString() {
-        return "Article created{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", abstractText='" + abstractText + '\'' +
-                '}';
-    }
 }
