@@ -6,5 +6,5 @@ public interface ArticleFileAssignmentService {
 
     void assignFile(ArticleFile articleFile);
 
-    void deleteFile(Long id);
+    void unassignFile(Long id);
 }

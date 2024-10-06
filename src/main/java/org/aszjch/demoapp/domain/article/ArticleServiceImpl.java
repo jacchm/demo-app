@@ -59,7 +59,7 @@ class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService
     }
 
     @Override
-    public void deleteFile(final Long id) {
+    public void unassignFile(final Long id) {
         getById(id).ifPresentOrElse(article -> {
             article.setFilename(null);
             repository.save(article);
