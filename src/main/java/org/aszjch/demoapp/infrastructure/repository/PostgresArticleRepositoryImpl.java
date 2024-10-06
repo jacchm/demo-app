@@ -13,18 +13,18 @@ import java.util.Optional;
 class PostgresArticleRepositoryImpl implements ArticleRepository {
 
     private final SpringPostgresArticleRepository repository;
-    private final ArticleMapper mapper;
+    private final ArticleEntityMapper mapper;
 
     @Override
-    public Article save(Article article) {
-        ArticleEntity entity = mapper.toEntity(article);
-        ArticleEntity saved = repository.save(entity);
+    public Article save(final Article article) {
+        final ArticleEntity entity = mapper.toEntity(article);
+        final ArticleEntity saved = repository.save(entity);
 
         return mapper.toDomain(saved);
     }
 
     @Override
-    public Optional<Article> findById(Long id) {
+    public Optional<Article> findById(final Long id) {
         return repository
                 .findById(id)
                 .map(mapper::toDomain);
@@ -40,7 +40,7 @@ class PostgresArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         repository.deleteById(id);
     }
 

@@ -10,8 +10,9 @@ class ArticleConfig {
 
     @Bean
     ArticleService articleService(final ArticleRepository articleRepository,
-                                  final ArticlePublisher articlePublisher) {
-        return new ArticleServiceImpl(articleRepository, articlePublisher);
+                                  final ArticlePublisher articlePublisher,
+                                  final ArticleMapper articleMapper) {
+        return new ArticleServiceImpl(articleRepository, articlePublisher, articleMapper);
     }
 
 }

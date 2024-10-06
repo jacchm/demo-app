@@ -8,7 +8,7 @@ import java.util.List;
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 @Mapper(componentModel = "spring", injectionStrategy = CONSTRUCTOR)
-interface ArticleMapper {
+interface ArticleEntityMapper {
 
     ArticleEntity toEntity(Article article);
 

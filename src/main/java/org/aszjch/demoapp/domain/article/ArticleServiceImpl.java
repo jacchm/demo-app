@@ -16,6 +16,7 @@ class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService
 
     private final ArticleRepository repository;
     private final ArticlePublisher publisher;
+    private final ArticleMapper mapper;
 
     @Override
     public List<Article> get() {
@@ -37,13 +38,8 @@ class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService
 
     @Override
     public Article update(final Long id, final Article article) {
-        final Article entity = getById(id).orElse(new Article());
-        entity.setId(id);
-        entity.setTitle(article.getTitle());
-        entity.setAbstractText(article.getAbstractText());
-        entity.setCreationDate(article.getCreationDate());
-        entity.setAuthor(article.getAuthor());
-        entity.setAbstractText(article.getAbstractText());
+        Article entity = getById(id).orElse(new Article().withId(id));
+        entity = mapper.upsert(entity, article);
         return repository.save(entity);
     }
 
