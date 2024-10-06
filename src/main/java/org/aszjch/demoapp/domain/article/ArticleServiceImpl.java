@@ -55,7 +55,7 @@ class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService
             repository.save(article);
             log.info("File [{}] has been successfully assigned to article [{}].", articleFile.getFilename(),
                      article.getId());
-        }, () -> log.error("File assignment failed. Article id {} not found", articleFile.getArticleId()));
+        }, () -> log.error("File assignment failed. Article id {} has not been found", articleFile.getArticleId()));
     }
 
     @Override
@@ -63,7 +63,7 @@ class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService
         getById(id).ifPresentOrElse(article -> {
             article.setFilename(null);
             repository.save(article);
-        }, () -> log.error("Article id {} not found", id));
+        }, () -> log.error("Article id {} has not been found", id));
     }
 
 }
