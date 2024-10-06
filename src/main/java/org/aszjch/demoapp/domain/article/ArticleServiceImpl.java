@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService {
+class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService {
 
     private final ArticleRepository repository;
     private final ArticlePublisher publisher;
