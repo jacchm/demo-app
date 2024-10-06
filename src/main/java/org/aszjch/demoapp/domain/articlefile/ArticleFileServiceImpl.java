@@ -7,7 +7,7 @@ import org.aszjch.demoapp.domain.articlefile.port.ArticleFileStorageService;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ArticleFileServiceImpl implements ArticleFileService {
+class ArticleFileServiceImpl implements ArticleFileService {
 
     private final ArticleFileStorageService articleFileStorageService;
     private final ArticleFileAssignmentService articleFileAssignmentService;
@@ -16,5 +16,10 @@ public class ArticleFileServiceImpl implements ArticleFileService {
     public void upload(final ArticleFile articleFile) {
         articleFileStorageService.store(articleFile);
         articleFileAssignmentService.assignFile(articleFile);
+    }
+
+    @Override
+    public void delete(final ArticleFile articleFile) {
+        articleFileStorageService.delete(articleFile);
     }
 }

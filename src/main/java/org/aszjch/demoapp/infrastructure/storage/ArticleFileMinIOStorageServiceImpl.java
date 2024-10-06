@@ -20,4 +20,10 @@ class ArticleFileMinIOStorageServiceImpl implements ArticleFileStorageService {
         final MultipartFile multipartFile = new CustomMultipartFile(articleFile.getFile());
         externalStorageClient.upload(multipartFile);
     }
+
+    @Override
+    public void delete(final ArticleFile articleFile) {
+        log.info("Removing article file {}", articleFile.getFilename());
+        externalStorageClient.delete(articleFile);
+    }
 }

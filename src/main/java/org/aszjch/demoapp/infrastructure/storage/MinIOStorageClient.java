@@ -5,6 +5,7 @@ import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.errors.ErrorResponseException;
 import io.minio.errors.InsufficientDataException;
 import io.minio.errors.InternalException;
@@ -14,6 +15,7 @@ import io.minio.errors.XmlParserException;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aszjch.demoapp.domain.articlefile.ArticleFile;
 import org.aszjch.demoapp.infrastructure.config.MinIOConnetionDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +54,18 @@ class MinIOStorageClient implements ExternalStorageClient {
             log.error("Exception occurred during uploading file {}", file.getName(), e);
         }
         return response;
+    }
+
+    @Override
+    public void delete(final ArticleFile articleFile) {
+        try {
+            s3Client.removeObject(RemoveObjectArgs.builder()
+                                          .bucket(minIOConnectionDetails.bucket())
+                                          .object(articleFile.getFilename())
+                                          .build());
+        } catch (final Exception e) {
+            log.error("Exception occurred during removal of file {}", articleFile.getFilename(), e);
+        }
     }
 
     @PostConstruct
