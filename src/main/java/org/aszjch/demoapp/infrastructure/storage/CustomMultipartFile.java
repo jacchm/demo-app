@@ -12,7 +12,7 @@ class CustomMultipartFile implements MultipartFile {
 
     private final File file;
 
-    public CustomMultipartFile(final File file) {
+    CustomMultipartFile(final File file) {
         this.file = file;
     }
 
