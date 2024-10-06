@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/articles/files")
+@RequestMapping("/article-files")
 class ArticleFileController {
 
     private final ArticleFileService service;
