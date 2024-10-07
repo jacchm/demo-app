@@ -1,6 +1,5 @@
 package org.aszjch.demoapp;
 
-import com.redis.testcontainers.RedisContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -19,11 +18,6 @@ public class TestcontainersConfiguration {
     @ServiceConnection
     KafkaContainer kafkaContainer() {
         return new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
-    }
-
-    @Bean
-    RedisContainer redisContainer() {
-        return new RedisContainer(DockerImageName.parse("redis:latest")).withExposedPorts(6379);
     }
 
     @Bean
