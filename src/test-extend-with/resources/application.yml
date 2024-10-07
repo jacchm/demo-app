@@ -6,11 +6,11 @@ logging:
           infrastructure:
             config:
               MinIOContainerConnectionDetailsFactory: debug
-              org.aszjch.demoapp.extendwith.infrastructure.config.MinIOAutoConfiguration: debug
+              MinIOAutoConfiguration: debug
 logging.level.org.aszjch.demoapp: debug
 spring:
   profiles:
-    active: test-service-connection
+    active: test-extend-with
   kafka:
     consumer:
       group-id: article

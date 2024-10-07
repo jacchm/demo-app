@@ -1,4 +1,4 @@
-package org.aszjch.demoapp;
+package org.aszjch.demoapp.extendwith;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 
 @Configuration
-@Profile("test-service-connection")
+@Profile("test-extend-with")
 public class TestClockBean {
 
     @Bean
