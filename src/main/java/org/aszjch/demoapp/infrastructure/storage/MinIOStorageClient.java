@@ -15,7 +15,7 @@ import io.minio.errors.XmlParserException;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aszjch.demoapp.domain.articlefile.ArticleFile;
+import org.aszjch.demoapp.domain.articlefile.ArticleFileMetadata;
 import org.aszjch.demoapp.infrastructure.config.MinIOConnetionDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,14 +57,14 @@ class MinIOStorageClient implements ExternalStorageClient {
     }
 
     @Override
-    public void delete(final ArticleFile articleFile) {
+    public void delete(final ArticleFileMetadata articleFileMetadata) {
         try {
             s3Client.removeObject(RemoveObjectArgs.builder()
                                           .bucket(minIOConnectionDetails.bucket())
-                                          .object(articleFile.getFilename())
+                                          .object(articleFileMetadata.getFilename())
                                           .build());
         } catch (final Exception e) {
-            log.error("Exception occurred during removal of file {}", articleFile.getFilename(), e);
+            log.error("Exception occurred during removal of file {}", articleFileMetadata.getFilename(), e);
         }
     }
 

@@ -59,11 +59,18 @@ class ArticleServiceImpl implements ArticleService, ArticleFileAssignmentService
     }
 
     @Override
-    public void unassignFile(final Long id) {
-        getById(id).ifPresentOrElse(article -> {
-            article.setFilename(null);
-            repository.save(article);
-        }, () -> log.error("Article id {} has not been found", id));
+    public Optional<String> unassignFile(final Long id) {
+        final Optional<String> filename;
+        final Optional<Article> articleOpt = getById(id);
+        filename = articleOpt.map(Article::getFilename);
+        articleOpt.ifPresentOrElse(this::removeFilenameFromEntity,
+                                   () -> log.error("Article id {} has not been found", id));
+        return filename;
+    }
+
+    private void removeFilenameFromEntity(final Article article) {
+        article.setFilename(null);
+        repository.save(article);
     }
 
 }

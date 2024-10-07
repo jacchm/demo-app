@@ -4,5 +4,5 @@ public interface ArticleFileService {
 
     void upload(ArticleFile articleFile);
 
-    void delete(ArticleFile articleFile);
+    void delete(Long articleId);
 }

@@ -1,13 +1,13 @@
 package org.aszjch.demoapp.domain.articlefile;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.File;
 
 @Data
-public class ArticleFile {
+@EqualsAndHashCode(callSuper = true)
+public class ArticleFile extends ArticleFileMetadata {
 
-    private Long articleId;
-    private String filename;
     private File file;
 }

@@ -3,6 +3,7 @@ package org.aszjch.demoapp.infrastructure.storage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aszjch.demoapp.domain.articlefile.ArticleFile;
+import org.aszjch.demoapp.domain.articlefile.ArticleFileMetadata;
 import org.aszjch.demoapp.domain.articlefile.port.ArticleFileStorageService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +23,8 @@ class ArticleFileMinIOStorageServiceImpl implements ArticleFileStorageService {
     }
 
     @Override
-    public void delete(final ArticleFile articleFile) {
-        log.info("Removing article file {}", articleFile.getFilename());
-        externalStorageClient.delete(articleFile);
+    public void delete(final ArticleFileMetadata articleFileMetadata) {
+        log.info("Removing article file {}", articleFileMetadata.getFilename());
+        externalStorageClient.delete(articleFileMetadata);
     }
 }

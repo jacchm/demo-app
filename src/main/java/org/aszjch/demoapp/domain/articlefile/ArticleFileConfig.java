@@ -16,8 +16,10 @@ class ArticleFileConfig {
 
     @Bean
     ArticleFileService articleFileService(final ArticleFileStorageService articleFileStorageService,
-                                          final ArticleFileAssignmentService articleFileAssignmentService) {
-        return new ArticleFileServiceImpl(articleFileStorageService, articleFileAssignmentService);
+                                          final ArticleFileAssignmentService articleFileAssignmentService,
+                                          final ArticleFileMetadataMapper articleFileMetadataMapper) {
+        return new ArticleFileServiceImpl(articleFileStorageService, articleFileAssignmentService,
+                                          articleFileMetadataMapper);
     }
 
 }
