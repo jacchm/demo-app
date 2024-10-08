@@ -2,11 +2,17 @@ package org.aszjch.demoapp.aplication;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aszjch.demoapp.domain.Article;
-import org.aszjch.demoapp.domain.ArticleService;
-import org.springframework.http.HttpStatus;
+import org.aszjch.demoapp.domain.article.Article;
+import org.aszjch.demoapp.domain.article.ArticleService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -36,7 +42,7 @@ class ArticleController {
     @PostMapping
     ResponseEntity<IdDTO> createArticle(@RequestBody final ArticleDto articleDto) {
         log.info("Creating article");
-        Article article = mapper.toEntity(articleDto);
+        final Article article = mapper.toEntity(articleDto);
         final Article saved = service.create(article);
 
         return ResponseEntity
@@ -45,14 +51,14 @@ class ArticleController {
     }
 
     @PutMapping
-    ResponseEntity<IdDTO> updateArticle(@RequestBody final ArticleDto articleDto) {
+    ResponseEntity<Void> updateArticle(@RequestParam final Long id, @RequestBody final ArticleDto articleDto) {
         log.info("Updating article");
-        Article article = mapper.toEntity(articleDto);
-        final Article updated = service.update(article);
+        final Article article = mapper.toEntity(articleDto);
+        service.update(id, article);
 
         return ResponseEntity
-                .ok()
-                .body(of(updated.getId()));
+                .noContent()
+                .build();
     }
 
     @DeleteMapping
@@ -61,7 +67,7 @@ class ArticleController {
         service.delete(id);
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
+                .noContent()
                 .build();
     }
 

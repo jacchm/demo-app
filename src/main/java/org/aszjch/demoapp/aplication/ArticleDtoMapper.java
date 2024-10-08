@@ -1,16 +1,17 @@
 package org.aszjch.demoapp.aplication;
 
-import org.aszjch.demoapp.domain.Article;
+import org.aszjch.demoapp.domain.article.Article;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
-
-@Mapper(componentModel = "spring", injectionStrategy = CONSTRUCTOR)
+@Mapper(config = MapStructConfig.class)
 interface ArticleDtoMapper {
-    ArticleDto toDto(Article article);
 
+    ArticleDto toDto(final Article article);
+
+    @Mapping(target = "creationDate", source = ".", qualifiedByName = {"CurrentTimeProvider", "getCurrentTime"})
     @Mapping(ignore = true, target = "id")
-    Article toEntity(ArticleDto articleDto);
+    @Mapping(ignore = true, target = "filename")
+    Article toEntity(final ArticleDto articleDto);
 
 }

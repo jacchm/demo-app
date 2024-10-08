@@ -1,6 +1,22 @@
 spring:
   application:
     name: demo-app
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  kafka:
+    consumer:
+      group-id: article
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: org.aszjch.demoapp.domain.article
+    admin:
+      auto-create: true
+    template:
+      default-topic: "articles-created"
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 logging:
   level:
     root: info

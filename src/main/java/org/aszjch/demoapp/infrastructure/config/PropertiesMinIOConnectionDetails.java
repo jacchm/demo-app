@@ -1,9 +1,9 @@
-package org.aszjch.demoapp.config;
+package org.aszjch.demoapp.infrastructure.config;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class PropertiesMinIOConnectionDetails implements MinIOConnetionDetails {
+class PropertiesMinIOConnectionDetails implements MinIOConnetionDetails {
 
     private final MinIOProperties minIOProperties;
 
@@ -20,5 +20,10 @@ public class PropertiesMinIOConnectionDetails implements MinIOConnetionDetails {
     @Override
     public String password() {
         return minIOProperties.password();
+    }
+
+    @Override
+    public String bucket() {
+        return minIOProperties.bucket();
     }
 }

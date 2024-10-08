@@ -13,7 +13,7 @@ import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
 @Slf4j
-class TestcontainersConfiguration {
+public class TestcontainersConfiguration {
 
     @Bean
     @ServiceConnection
@@ -29,8 +29,10 @@ class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     PostgreSQLContainer<?> postgresContainer() {
-        PostgreSQLContainerProvider postgreSQLContainerProvider = new PostgreSQLContainerProvider();
-        return (PostgreSQLContainer<?>) postgreSQLContainerProvider.newInstance("latest");
+        final PostgreSQLContainerProvider postgreSQLContainerProvider = new PostgreSQLContainerProvider();
+        return (PostgreSQLContainer<?>) postgreSQLContainerProvider
+                .newInstance("latest")
+                .withInitScript("db/init.sql");
     }
 
     @Bean
