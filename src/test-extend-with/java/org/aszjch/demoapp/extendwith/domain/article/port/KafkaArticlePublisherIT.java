@@ -14,12 +14,14 @@ import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest(classes = DemoAppApplication.class)
 @ExtendWith({MinIOContainerExtension.class, PostgresContainerExtension.class, KafkaContainerExtension.class})
+@ActiveProfiles("test-extend-with")
 class KafkaArticlePublisherIT {
 
     @Autowired
@@ -40,7 +42,5 @@ class KafkaArticlePublisherIT {
                 .untilAsserted(() -> verify(kafkaTestListener).listener(messageCaptor.capture()));
         assertEquals(articleCreatedDto, messageCaptor.getValue());
     }
-    // TODO 07.10.2024: naprawić ten test, bo nie daje poprawnego wyniku mimo loga z odebraniem wiadomości. Pewnie
-    //  captor nie siada poprawnie
 
 }

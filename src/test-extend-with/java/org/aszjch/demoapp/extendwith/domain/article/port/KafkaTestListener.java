@@ -13,6 +13,6 @@ class KafkaTestListener {
 
     @KafkaListener(topics = {"articles-created"})
     void listener(final ArticleCreatedDto message) {
-        log.info("Received message: {}", message);
+        log.info("Received message from other listener: {}", message);
     }
 }
