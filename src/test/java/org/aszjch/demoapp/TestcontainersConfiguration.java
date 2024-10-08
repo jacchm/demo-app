@@ -26,7 +26,6 @@ public class TestcontainersConfiguration {
     KafkaContainer kafkaContainer(final Network kafkaNetwork) {
         final KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"))
                 .withNetwork(kafkaNetwork)
-                .withEmbeddedZookeeper()
                 .withNetworkAliases("kafka");
         kafka.start();
         return kafka;
