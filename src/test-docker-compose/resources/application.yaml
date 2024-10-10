@@ -1,17 +1,11 @@
-logging:
-  level:
-    org:
-      aszjch:
-        demoapp:
-          infrastructure:
-            config:
-              MinIOContainerConnectionDetailsFactory: debug
-              org.aszjch.demoapp.extendwith.infrastructure.config.MinIOAutoConfiguration: debug
-logging.level.org.aszjch.demoapp: debug
 spring:
-  profiles:
-    active: test-service-connection
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testdb
+    username: postgres
+    password: password
+
   kafka:
+    bootstrap-servers: localhost:9092
     consumer:
       group-id: article
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -24,3 +18,9 @@ spring:
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+
+minio:
+  url: http://localhost:9000
+  username: minio
+  password: minio123
+  bucket: test-bucket

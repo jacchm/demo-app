@@ -16,5 +16,4 @@ class KafkaConfig {
                 .build();
     }
 
-
 }

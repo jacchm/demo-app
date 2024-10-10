@@ -1,4 +1,4 @@
-package org.aszjch.demoapp.domain.article.port;
+package org.aszjch.demoapp.extendwith.domain.article.port;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aszjch.demoapp.domain.article.ArticleCreatedDto;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-@Profile("test-service-connection")
+@Profile("test-extend-with")
 class KafkaTestListener {
 
     @KafkaListener(topics = {"articles-created"})
     void listener(final ArticleCreatedDto message) {
-        log.info("Received message: {}", message);
+        log.info("Received message from other listener: {}", message);
     }
 }

@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Import({TestcontainersConfiguration.class, TestClockBean.class})
-class PostgresArticleRepositoryTest {
+class PostgresArticleRepositoryIT {
 
     @Autowired
     private ArticleRepository postgresArticleRepository;
