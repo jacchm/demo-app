@@ -22,18 +22,22 @@ class DemoAppApplicationTests {
         final PostgreSQLContainerProvider postgreSQLContainerProvider = new PostgreSQLContainerProvider();
         postgresContainer = (PostgreSQLContainer<?>) postgreSQLContainerProvider
                 .newInstance("latest")
+                .withUsername("postgres")
+                .withPassword("postgres")
+                .withDatabaseName("testdb")
                 .withInitScript("db/init.sql");
         postgresContainer.start();
 
         minIOContainer = new MinIOContainer(DockerImageName.parse("minio/minio:latest"));
         minIOContainer.start();
 
-        kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+        kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"))
+                .withEmbeddedZookeeper();
         kafkaContainer.start();
     }
 
     @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
+    static void properties(final DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
         registry.add("spring.datasource.username", postgresContainer::getUsername);
         registry.add("spring.datasource.password", postgresContainer::getPassword);
